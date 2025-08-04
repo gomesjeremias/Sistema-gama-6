@@ -1,0 +1,520 @@
+<html lang="pt-BR" data-theme="light">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Vendas</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body class="bg-base-200">
+    <div class="logo-image">
+        <div class="logo">
+            <img src="./logogama.png">
+        </div>
+    </div>
+
+    <div id="app" class="h-screen w-screen">
+        <!-- Tela de Login -->
+        <div id="login-page" class="flex items-center justify-center h-full">
+            <div class="card w-96 bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title text-4xl justify-center mb-4" style="color: #ffff;">Login</h2>
+                    <form id="login-form">
+                        <div class="form-control">
+                            <label class="label"><span class="label-text">Usuário</span></label>
+                            <input type="text" id="username" placeholder="admin" class="input input-bordered" required
+                                value="" />
+                        </div>
+                        <div class="form-control">
+                            <label class="label"><span class="label-text">Senha</span></label>
+                            <input type="password" id="password" placeholder="digite sua senha"
+                                class="input input-bordered" required value="" />
+                        </div>
+                        <div class="form-control mt-6">
+                            <button type="submit" class="btn btn-primary">Entrar</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela de Cadastro -->
+        <div id="signup-page" class="hidden flex items-center justify-center h-full">
+            <div class="card w-96 bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title text-2xl justify-center mb-4">Cadastro</h2>
+                    <form id="signup-form">
+                        <div class="form-control">
+                            <label class="label"><span class="label-text">Usuário</span></label>
+                            <input type="text" id="signup-username" placeholder="novo.usuario"
+                                class="input input-bordered" required />
+                        </div>
+                        <div class="form-control">
+                            <label class="label"><span class="label-text">Senha</span></label>
+                            <input type="password" id="signup-password" placeholder="••••••••"
+                                class="input input-bordered" required />
+                        </div>
+                        <div class="form-control mt-6">
+                            <button type="submit" class="btn btn-primary">Criar Conta</button>
+                        </div>
+                    </form>
+                    <div class="divider">ou</div>
+                    <button id="show-login-btn" class="btn btn-ghost">Voltar para Login</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conteúdo Principal do App -->
+        <div id="main-app" class="hidden flex h-full">
+            <!-- Botão Menu Hambúrguer -->
+            <button id="menu-toggle" class="fixed top-4 left-4 z-50 lg:hidden bg-base-100 p-2 rounded-md shadow-md">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+
+            <!-- Sidebar -->
+            <aside id="sidebar"
+                class="w-64 bg-base-100 shadow-md flex flex-col fixed lg:relative h-full z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+                <div class="p-4 text-xl font-bold border-b">SalesApp</div>
+                <ul class="menu p-4 flex-1">
+                    <li><a href="#dashboard" class="nav-link active"><i class="fa-solid fa-chart-pie w-4"></i>
+                            Dashboard</a></li>
+                    <li>
+                        <details id="escolas-menu">
+                            <summary><i class="fa-solid fa-school w-4"></i> Escolas</summary>
+                            <ul id="escolas-submenu" class="max-h-64 overflow-y-auto">
+                                <!-- Preenchido dinamicamente -->
+                            </ul>
+
+                        </details>
+                    </li>
+                    <li><a href="#produtos" class="nav-link"><i class="fa-solid fa-box-archive w-4"></i> Produtos</a>
+                    </li>
+                    <li><a href="#fornecedores" class="nav-link"><i class="fa-solid fa-truck-fast w-4"></i>
+                            Fornecedores</a></li>
+                    <li><a href="#vendas" class="nav-link"><i class="fa-solid fa-dollar-sign w-4"></i> Vendas</a></li>
+                </ul>
+                <div class="p-4 border-t">
+                    <button id="logout-btn" class="btn btn-ghost btn-block justify-start"><i
+                            class="fa-solid fa-right-from-bracket w-4"></i> Sair</button>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="flex-1 p-6 overflow-y-auto lg:ml-0">
+                <!-- Overlay para fechar menu em mobile -->
+                <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden hidden"></div>
+
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="page-section">
+                    <h1 class="text-3xl font-bold mb-6 static">Dashboard</h1>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 static">
+                        <div class="card bg-base-100 shadow-lg" style="height: 30vh;">
+                            <div class="card-body">
+                                <h2 class="card-title text-slate-500">Total Recebido</h2>
+                                <p class="text-3xl font-bold" id="total-recebido">R$ 0,00</p>
+                            </div>
+                        </div>
+                        <div class="card bg-base-100 shadow-lg static" style="height: 30vh;">
+                            <div class="card-body">
+                                <h2 class="card-title text-slate-500">Total a Receber</h2>
+                                <p class="text-3xl font-bold" id="total-a-receber">R$ 0,00</p>
+                            </div>
+                        </div>
+                        <div class="card bg-base-100 shadow-lg static" style="height: 30vh;">
+                            <div class="card-body">
+                                <h2 class="card-title text-slate-500">Vendas Realizadas</h2>
+                                <p class="text-3xl font-bold" id="n-vendas">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" style="height: 50vh;">
+                        <div class="card bg-base-100 shadow-lg">
+                            <div class="card-body" style="height: 96vh;">
+                                <h2 class="card-title mb-4">Vendas por Produto</h2>
+                                <canvas id="vendas-produto-chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="card bg-base-100 shadow-lg">
+                            <div class="card-body">
+                                <h2 class="card-title mb-4">Clientes com Contas a Pagar</h2>
+                                <div class="overflow-x-auto">
+                                    <table class="table" id="clientes-a-pagar-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Nome</th>
+                                                <th>Telefone</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Preenchido por JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Escola Section -->
+                <section id="escola" class="page-section hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-3xl font-bold" id="escola-title">Clientes da Escola</h1>
+                        <button class="btn btn-primary" onclick="client_modal.showModal()"><i
+                                class="fa-solid fa-plus"></i> Novo Cliente</button>
+                    </div>
+                    <div class="card bg-base-100 shadow-lg">
+                        <div class="card-body">
+                            <div class="overflow-x-auto">
+                                <table class="table table-zebra">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Email</th>
+                                            <th>Telefone</th>
+                                            <th>Status</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="clientes-table">
+                                        <!-- Preenchido por JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Produtos Section -->
+                <section id="produtos" class="page-section hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-3xl font-bold">Produtos</h1>
+                        <button class="btn btn-primary" onclick="produto_modal.showModal()"><i
+                                class="fa-solid fa-plus"></i> Novo Produto</button>
+                    </div>
+                    <div class="card bg-base-100 shadow-lg">
+                        <div class="card-body">
+                            <div class="overflow-x-auto">
+                                <table class="table table-zebra">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Código</th>
+                                            <th>Descrição</th>
+                                            <th>Preço</th>
+                                            <th>Estoque</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="produtos-table">
+                                        <!-- Preenchido por JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Fornecedores Section -->
+                <section id="fornecedores" class="page-section hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-3xl font-bold">Fornecedores</h1>
+                        <button class="btn btn-primary" onclick="fornecedor_modal.showModal()"><i
+                                class="fa-solid fa-plus"></i> Novo Fornecedor</button>
+                    </div>
+                    <div class="card bg-base-100 shadow-lg">
+                        <div class="card-body">
+                            <div class="overflow-x-auto">
+                                <table class="table table-zebra">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>CNPJ</th>
+                                            <th>Contato</th>
+                                            <th>Produtos</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="fornecedores-table">
+                                        <!-- Preenchido por JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="vendas" class="page-section hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-3xl font-bold">Vendas</h1>
+                        <div class="flex items-center gap-2">
+                            <button class="btn btn-primary" onclick="sale_modal.showModal()"><i
+                                    class="fa-solid fa-plus"></i> Nova Venda</button>
+                            <div class="dropdown dropdown-end">
+                                <div tabindex="0" role="button" class="btn btn-secondary">
+                                    <i class="fa-solid fa-download"></i> Baixar Relatório
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </div>
+                                <ul tabindex="0"
+                                    class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                                    <li><a id="download-sales-pdf"><i class="fa-solid fa-file-pdf"></i> Baixar PDF</a>
+                                    </li>
+                                    <li><a id="download-sales-excel"><i class="fa-solid fa-file-excel"></i> Baixar
+                                            Excel</a></li>
+                                </ul>
+                            </div>
+                            <button class="btn btn-error btn-outline" id="clear-sales-btn"><i
+                                    class="fa-solid fa-trash-can"></i> Limpar Vendas</button>
+                        </div>
+                    </div>
+                    <div class="card bg-base-100 shadow-lg">
+                        <div class="card-body">
+                            <div class="overflow-x-auto">
+                                <table class="table table-zebra">
+                                    <thead>
+                                        <tr>
+                                            <th>Data</th>
+                                            <th>Cliente</th>
+                                            <th>Produto</th>
+                                            <th>Qtd.</th>
+                                            <th>Valor Total</th>
+                                            <th>Forma Pag.</th>
+                                            <th>Status</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="vendas-table">
+                                        <!-- Preenchido por JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal Cliente -->
+    <dialog id="client_modal" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg" id="client-modal-title">Novo Cliente</h3>
+            <form id="client-form" class="py-4 space-y-4">
+                <input type="hidden" id="client-id">
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Nome</span></label>
+                    <input type="text" id="client-name" placeholder="Nome completo" class="input input-bordered"
+                        required>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">E-mail</span></label>
+                    <input type="email" id="client-email" placeholder="email@exemplo.com" class="input input-bordered"
+                        required>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Telefone</span></label>
+                   <input type="tel" id="client-phone" placeholder="(99) 99999-9999" class="input input-bordered" maxlength="15">
+
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Escola</span></label>
+                    <select id="client-escola" class="select select-bordered" required>
+                        <option disabled selected>Selecione uma escola</option>
+                        <!-- Preenchido dinamicamente por JS -->
+                    </select>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Status da Conta</span></label>
+                    <select id="client-status" class="select select-bordered" required>
+                        <option value="Pago">Pago</option>
+                        <option value="A pagar">A pagar</option>
+                    </select>
+                </div>
+            </form>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-ghost">Fechar</button>
+                </form>
+                <button class="btn btn-primary" id="save-client-btn">Salvar</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Modal Venda -->
+    <dialog id="sale_modal" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg" id="sale-modal-title">Nova Venda</h3>
+            <form id="sale-form" class="py-4 space-y-4">
+                <input type="hidden" id="sale-id">
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Cliente</span></label>
+                    <select id="sale-client" class="select select-bordered" required></select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Produto</span></label>
+                        <select id="sale-product" class="select select-bordered" required></select>
+                    </div>
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Quantidade</span></label>
+                        <input type="number" id="sale-quantity" value="1" min="1" class="input input-bordered" required>
+                    </div>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Valor Total</span></label>
+                    <input type="text" id="sale-total" placeholder="R$ 0,00" class="input input-bordered" readonly>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Forma de Pagamento</span></label>
+                        <select id="sale-payment" class="select select-bordered" required>
+                            <option>Cartão de Crédito</option>
+                            <option>Boleto</option>
+                            <option>PIX</option>
+                            <option>Dinheiro</option>
+                        </select>
+                    </div>
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Status da Venda</span></label>
+                        <select id="sale-status" class="select select-bordered" required>
+                            <option value="Pago">Pago</option>
+                            <option value="A pagar">A pagar</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-ghost" id="close-sale-modal-btn">Fechar</button>
+                </form>
+                <button class="btn btn-primary" id="save-sale-btn">Salvar</button>
+            </div>
+        </div>
+    </dialog>
+
+
+    <!-- Modal Produto -->
+    <dialog id="produto_modal" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg" id="produto-modal-title">Novo Produto</h3>
+            <form id="produto-form" class="py-4 space-y-4">
+                <input type="hidden" id="produto-id">
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Nome</span></label>
+                    <input type="text" id="produto-nome" placeholder="Nome do produto" class="input input-bordered"
+                        required>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Código</span></label>
+                    <input type="text" id="produto-codigo" placeholder="Código do produto" class="input input-bordered"
+                        required>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Descrição</span></label>
+                    <textarea id="produto-descricao" placeholder="Descrição do produto"
+                        class="textarea textarea-bordered" rows="3"></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Preço</span></label>
+                        <input type="number" id="produto-preco" placeholder="0.00" step="0.01" min="0"
+                            class="input input-bordered" required>
+                    </div>
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Estoque</span></label>
+                        <input type="number" id="produto-estoque" placeholder="0" min="0" class="input input-bordered"
+                            required>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-ghost">Fechar</button>
+                </form>
+                <button class="btn btn-primary" id="save-produto-btn">Salvar</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Modal Fornecedor -->
+    <dialog id="fornecedor_modal" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg" id="fornecedor-modal-title">Novo Fornecedor</h3>
+            <form id="fornecedor-form" class="py-4 space-y-4">
+                <input type="hidden" id="fornecedor-id">
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Nome</span></label>
+                    <input type="text" id="fornecedor-nome" placeholder="Nome do fornecedor"
+                        class="input input-bordered" required>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">CNPJ</span></label>
+                    <input type="text" id="fornecedor-cnpj" placeholder="00.000.000/0000-00"
+                        class="input input-bordered" required>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Contato</span></label>
+                    <input type="email" id="fornecedor-contato" placeholder="contato@fornecedor.com"
+                        class="input input-bordered" required>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Produtos Fornecidos</span></label>
+                    <textarea id="fornecedor-produtos" placeholder="Lista de produtos fornecidos"
+                        class="textarea textarea-bordered" rows="3"></textarea>
+                </div>
+            </form>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-ghost">Fechar</button>
+                </form>
+                <button class="btn btn-primary" id="save-fornecedor-btn">Salvar</button>
+            </div>
+        </div>
+    </dialog>
+
+
+    <script src="db.js" type="module"></script>
+    <script src="auth.js" type="module"></script>
+
+
+    <script src="app.js" type="module"></script>
+
+    <dialog id="report_client_modal" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg">Gerar Relatório de Cliente</h3>
+            <p class="py-4">Selecione um cliente da lista para gerar um relatório detalhado de suas vendas.</p>
+
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text">Cliente</span>
+                </label>
+                <select id="report-client-select" class="select select-bordered" required>
+                    <option disabled selected>Escolha um cliente</option>
+                    <!-- Clientes serão populados via JavaScript -->
+                </select>
+            </div>
+
+            <div class="modal-action">
+                <button class="btn btn-primary" id="generate-selected-client-report-btn">Gerar Relatório</button>
+                <form method="dialog">
+                    <button class="btn btn-ghost">Fechar</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
+</body>
+
+</html>
+<script type="module" src="app.js"></script>
