@@ -440,13 +440,42 @@ function generateSalesReportPDF(clientId = null) {
             return;
         }
         const clientSales = sales.filter(sale => sale.clienteId === clientId);
-        // ... (código do PDF do cliente)
+
+        doc.text(`Relatório de Vendas - ${client.nome}`, 10, 10);
+        doc.autoTable({
+            head: [['Data', 'Produto', 'Qtd', 'Valor Total', 'Pagamento', 'Status']],
+            body: clientSales.map(s => [
+                new Date(s.data).toLocaleDateString('pt-BR'),
+                productMap.get(s.produtoId) || 'Produto',
+                s.quantidade,
+                `R$ ${s.valorTotal.toFixed(2)}`,
+                s.formaPagamento,
+                s.status
+            ]),
+            startY: 20
+        });
+
         doc.save(`relatorio_${client.nome.replace(/\s/g, '_')}.pdf`);
     } else {
-        // ... (código do PDF geral)
+        doc.text('Relatório Geral de Vendas', 10, 10);
+        doc.autoTable({
+            head: [['Cliente', 'Produto', 'Qtd', 'Valor Total', 'Data', 'Pagamento', 'Status']],
+            body: sales.map(s => [
+                clients.find(c => c.id === s.clienteId)?.nome || 'Cliente',
+                productMap.get(s.produtoId) || 'Produto',
+                s.quantidade,
+                `R$ ${s.valorTotal.toFixed(2)}`,
+                new Date(s.data).toLocaleDateString('pt-BR'),
+                s.formaPagamento,
+                s.status
+            ]),
+            startY: 20
+        });
+
         doc.save('relatorio_detalhado_vendas.pdf');
     }
 }
+
 
 function setupEventListeners() {
     // Delegação de eventos para todo o documento
@@ -505,6 +534,32 @@ function setupEventListeners() {
             }
         }
     });
+
+    document.getElementById('download-sales-excel').addEventListener('click', () => {
+    const sales = db.getAll("vendas");
+    const clients = db.getAll("clientes");
+    const products = db.getAll("produtos");
+
+    const clientMap = new Map(clients.map(c => [c.id, c.nome]));
+    const productMap = new Map(products.map(p => [p.id, p.nome]));
+
+    const worksheetData = sales.map(s => ({
+        Data: new Date(s.data).toLocaleDateString('pt-BR'),
+        Cliente: clientMap.get(s.clienteId) || 'Desconhecido',
+        Produto: productMap.get(s.produtoId) || 'Desconhecido',
+        Quantidade: s.quantidade,
+        ValorTotal: s.valorTotal,
+        Pagamento: s.formaPagamento,
+        Status: s.status
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(worksheetData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Vendas");
+
+    XLSX.writeFile(wb, "relatorio_vendas.xlsx");
+});
+
     document.getElementById('produto-search').addEventListener('input', (e) => {
         renderProducts(e.target.value);
     });
