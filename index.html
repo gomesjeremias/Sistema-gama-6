@@ -178,6 +178,11 @@
                     <div class="card bg-base-100 shadow-lg">
                         <div class="card-body">
                             <div class="overflow-x-auto">
+                                <div class="mb-4">
+                                    <input type="text" id="cliente-search" class="input input-bordered w-full"
+                                        placeholder="Buscar cliente por nome...">
+                                </div>
+
                                 <table class="table table-zebra">
                                     <thead>
                                         <tr>
@@ -199,6 +204,11 @@
 
                 <!-- Produtos Section -->
                 <section id="produtos" class="page-section hidden">
+                    <div class="mb-4">
+                        <input type="text" id="produto-search" class="input input-bordered w-full"
+                            placeholder="Buscar produto por nome...">
+                    </div>
+
                     <div class="flex justify-between items-center mb-6">
                         <h1 class="text-3xl font-bold">Produtos</h1>
                         <button class="btn btn-primary" onclick="produto_modal.showModal()"><i
@@ -324,7 +334,8 @@
                 </div>
                 <div class="form-control">
                     <label class="label"><span class="label-text">Telefone</span></label>
-                   <input type="tel" id="client-phone" placeholder="(99) 99999-9999" class="input input-bordered" maxlength="15">
+                    <input type="tel" id="client-phone" placeholder="(99) 99999-9999" class="input input-bordered"
+                        maxlength="15">
 
                 </div>
                 <div class="form-control">

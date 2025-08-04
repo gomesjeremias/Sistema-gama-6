@@ -7,7 +7,7 @@ let vendasProdutoChart;
 let currentEscolaId = null;
 
 // Funções de Renderização
-function renderClients(escolaId = null) {
+function renderClients(escolaId = null, filtro = '') {
     let clients;
     if (escolaId) {
         clients = db.getClientesByEscola(escolaId);
@@ -16,9 +16,9 @@ function renderClients(escolaId = null) {
         document.getElementById('escola-title').textContent = `Clientes da ${escola.nome}`;
     } else {
         clients = db.getAll('clientes');
-        currentEscolaId = null; // Resetar quando não estiver em uma escola específica
-        document.getElementById('escola-title').textContent = 'Clientes'; // Título genérico
     }
+
+    clients = clients.filter(c => c.nome.toLowerCase().includes(filtro.toLowerCase()));
 
     const tableBody = document.getElementById('clientes-table');
     tableBody.innerHTML = '';
@@ -39,8 +39,12 @@ function renderClients(escolaId = null) {
     });
 }
 
-function renderProducts() {
-    const products = db.getAll('produtos');
+
+function renderProducts(filtro = '') {
+    const products = db.getAll('produtos').filter(p =>
+        p.nome.toLowerCase().includes(filtro.toLowerCase())
+    );
+
     const tableBody = document.getElementById('produtos-table');
     tableBody.innerHTML = '';
     products.forEach(product => {
@@ -59,6 +63,7 @@ function renderProducts() {
         `;
     });
 }
+
 
 function renderSuppliers() {
     const suppliers = db.getAll('fornecedores');
@@ -183,7 +188,7 @@ function showPage(pageId) {
 function handleNavigation() {
     const hash = window.location.hash.substring(1);
     const pageId = hash.split('-')[0] || 'dashboard';
-    
+
     showPage(pageId);
 
     if (pageId === 'dashboard') renderDashboard();
@@ -500,6 +505,12 @@ function setupEventListeners() {
             }
         }
     });
+    document.getElementById('produto-search').addEventListener('input', (e) => {
+        renderProducts(e.target.value);
+    });
+    document.getElementById('cliente-search').addEventListener('input', (e) => {
+        renderClients(currentEscolaId, e.target.value);
+    });
 
     // Botões para abrir modais de "Novo"
     document.querySelector('button[onclick="client_modal.showModal()"]').addEventListener('click', populateClientFormForNew);
@@ -550,12 +561,12 @@ function setupMobileMenu() {
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebar-overlay');
-    
+
     menuToggle.addEventListener('click', () => {
         sidebar.classList.toggle('show');
         overlay.classList.toggle('show');
     });
-    
+
     overlay.addEventListener('click', () => {
         sidebar.classList.remove('show');
         overlay.classList.remove('show');
@@ -579,7 +590,7 @@ function initApp() {
     setupSupplierForm();
     setupMobileMenu();
     setupEventListeners();
-    
+
     window.addEventListener('hashchange', handleNavigation);
     handleNavigation(); // Chamada inicial
 }
