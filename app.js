@@ -18,7 +18,11 @@ function renderClients(escolaId = null, filtro = '') {
         clients = db.getAll('clientes');
     }
 
-    clients = clients.filter(c => c.nome.toLowerCase().includes(filtro.toLowerCase()));
+    const statusFiltro = document.getElementById('cliente-status-filter')?.value || '';
+    clients = clients.filter(c =>
+        c.nome.toLowerCase().includes(filtro.toLowerCase()) &&
+        (statusFiltro === '' || c.status === statusFiltro)
+    );
 
     const tableBody = document.getElementById('clientes-table');
     tableBody.innerHTML = '';
@@ -536,29 +540,29 @@ function setupEventListeners() {
     });
 
     document.getElementById('download-sales-excel').addEventListener('click', () => {
-    const sales = db.getAll("vendas");
-    const clients = db.getAll("clientes");
-    const products = db.getAll("produtos");
+        const sales = db.getAll("vendas");
+        const clients = db.getAll("clientes");
+        const products = db.getAll("produtos");
 
-    const clientMap = new Map(clients.map(c => [c.id, c.nome]));
-    const productMap = new Map(products.map(p => [p.id, p.nome]));
+        const clientMap = new Map(clients.map(c => [c.id, c.nome]));
+        const productMap = new Map(products.map(p => [p.id, p.nome]));
 
-    const worksheetData = sales.map(s => ({
-        Data: new Date(s.data).toLocaleDateString('pt-BR'),
-        Cliente: clientMap.get(s.clienteId) || 'Desconhecido',
-        Produto: productMap.get(s.produtoId) || 'Desconhecido',
-        Quantidade: s.quantidade,
-        ValorTotal: s.valorTotal,
-        Pagamento: s.formaPagamento,
-        Status: s.status
-    }));
+        const worksheetData = sales.map(s => ({
+            Data: new Date(s.data).toLocaleDateString('pt-BR'),
+            Cliente: clientMap.get(s.clienteId) || 'Desconhecido',
+            Produto: productMap.get(s.produtoId) || 'Desconhecido',
+            Quantidade: s.quantidade,
+            ValorTotal: s.valorTotal,
+            Pagamento: s.formaPagamento,
+            Status: s.status
+        }));
 
-    const ws = XLSX.utils.json_to_sheet(worksheetData);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Vendas");
+        const ws = XLSX.utils.json_to_sheet(worksheetData);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Vendas");
 
-    XLSX.writeFile(wb, "relatorio_vendas.xlsx");
-});
+        XLSX.writeFile(wb, "relatorio_vendas.xlsx");
+    });
 
     document.getElementById('produto-search').addEventListener('input', (e) => {
         renderProducts(e.target.value);
@@ -566,6 +570,11 @@ function setupEventListeners() {
     document.getElementById('cliente-search').addEventListener('input', (e) => {
         renderClients(currentEscolaId, e.target.value);
     });
+
+    document.getElementById('cliente-status-filter').addEventListener('change', () => {
+        renderClients(currentEscolaId, document.getElementById('cliente-search').value);
+    });
+
 
     // Botões para abrir modais de "Novo"
     document.querySelector('button[onclick="client_modal.showModal()"]').addEventListener('click', populateClientFormForNew);
