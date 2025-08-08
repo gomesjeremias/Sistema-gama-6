@@ -170,6 +170,9 @@ body {
   max-height: 80px;
   width: auto;
   transition: var(--transition-normal);
+  position: relative;
+    left: -490px;
+    top: 9px;
 }
 
 .logo img:hover {
