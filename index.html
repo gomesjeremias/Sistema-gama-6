@@ -495,6 +495,56 @@
                 </button>
               </div>
             </div>
+
+            <!-- Filtros de Status de Pagamento -->
+            <div class="card bg-base-100 shadow-md mb-4">
+              <div class="card-body py-4">
+                <div class="flex items-center gap-4 flex-wrap">
+                  <span class="font-semibold text-base-content/70">
+                    <i class="fa-solid fa-filter mr-2"></i>Filtrar por Status:
+                  </span>
+                  <div class="flex gap-2 flex-wrap">
+                    <button
+                      id="filter-all"
+                      class="btn btn-sm btn-neutral filter-btn active"
+                      data-status="all"
+                    >
+                      <i class="fa-solid fa-list"></i> Todos
+                    </button>
+                    <button
+                      id="filter-pago"
+                      class="btn btn-sm btn-success btn-outline filter-btn"
+                      data-status="Pago"
+                    >
+                      <i class="fa-solid fa-check-circle"></i> Pago
+                    </button>
+                    <button
+                      id="filter-parcial"
+                      class="btn btn-sm btn-warning btn-outline filter-btn"
+                      data-status="Pago Parcialmente"
+                    >
+                      <i class="fa-solid fa-clock"></i> Pago Parcialmente
+                    </button>
+                    <button
+                      id="filter-pendente"
+                      class="btn btn-sm btn-error btn-outline filter-btn"
+                      data-status="A Pagar"
+                    >
+                      <i class="fa-solid fa-exclamation-circle"></i> A Pagar
+                    </button>
+                  </div>
+                  <div class="ml-auto">
+                    <span
+                      id="vendas-counter"
+                      class="text-sm text-base-content/60"
+                    >
+                      <!-- Contador será preenchido por JS -->
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="card bg-base-100 shadow-lg">
               <div class="card-body">
                 <div class="overflow-x-auto">
@@ -574,7 +624,8 @@
             >
             <select id="client-status" class="select select-bordered" required>
               <option value="Pago">Pago</option>
-              <option value="A pagar">A pagar</option>
+              <option value="Pago Parcialmente">Pago Parcialmente</option>
+              <option value="A Pagar">A Pagar</option>
             </select>
           </div>
         </form>
@@ -656,7 +707,8 @@
               >
               <select id="sale-status" class="select select-bordered" required>
                 <option value="Pago">Pago</option>
-                <option value="A pagar">A pagar</option>
+                <option value="Pago Parcialmente">Pago Parcialmente</option>
+                <option value="A Pagar">A Pagar</option>
               </select>
             </div>
           </div>

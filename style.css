@@ -702,6 +702,60 @@ body {
 }
 
 /* =====================================
+   FILTROS DE VENDAS
+   ===================================== */
+
+.filter-btn {
+  transition: all var(--transition-fast);
+  border-radius: var(--border-radius-md);
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+.filter-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.filter-btn.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  box-shadow: var(--shadow-md);
+}
+
+.filter-btn.active:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+/* Animação para mudança de filtros */
+.vendas-table-row {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.vendas-table-row.hidden {
+  opacity: 0;
+  transform: translateX(-20px);
+  pointer-events: none;
+}
+
+.vendas-table-row.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Contador de vendas */
+#vendas-counter {
+  background: var(--gray-100);
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-full);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+/* =====================================
    CHARTS E GRÁFICOS
    ===================================== */
 
