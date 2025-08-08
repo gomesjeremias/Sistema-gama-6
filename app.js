@@ -95,13 +95,14 @@ function renderSuppliers() {
   })
 }
 
-function renderSales(statusFilter = 'all') {
+function renderSales(statusFilter = 'all', clientNameFilter = '') {
   const sales = db.getAll('vendas')
   console.log(
     'Vendas encontradas:',
     sales.map(s => ({ id: s.id, status: s.status }))
   )
-  console.log('Filtro aplicado:', statusFilter)
+  console.log('Filtro de status aplicado:', statusFilter)
+  console.log('Filtro de cliente aplicado:', clientNameFilter)
 
   const clients = db.getAll('clientes')
   const products = db.getAll('produtos')
@@ -111,26 +112,45 @@ function renderSales(statusFilter = 'all') {
   const clientMap = new Map(clients.map(c => [c.id, c.nome]))
   const productMap = new Map(products.map(p => [p.id, p.nome]))
 
-  // Filtrar vendas por status
-  const filteredSales =
-    statusFilter === 'all'
-      ? sales
-      : sales.filter(sale => {
-          if (statusFilter === 'A Pagar') {
-            return sale.status === 'A Pagar' || sale.status === 'A pagar'
-          }
-          return sale.status === statusFilter
-        })
+  // Filtrar vendas por status e nome do cliente
+  let filteredSales = sales
+
+  // Filtro por status
+  if (statusFilter !== 'all') {
+    filteredSales = filteredSales.filter(sale => {
+      if (statusFilter === 'A Pagar') {
+        return sale.status === 'A Pagar' || sale.status === 'A pagar'
+      }
+      return sale.status === statusFilter
+    })
+  }
+
+  // Filtro por nome do cliente
+  if (clientNameFilter.trim() !== '') {
+    filteredSales = filteredSales.filter(sale => {
+      const clientName = clientMap.get(sale.clienteId) || ''
+      return clientName.toLowerCase().includes(clientNameFilter.toLowerCase())
+    })
+  }
 
   // Atualizar contador
   const counter = document.getElementById('vendas-counter')
   if (counter) {
     const totalSales = sales.length
     const filteredCount = filteredSales.length
-    counter.textContent =
-      statusFilter === 'all'
-        ? `${totalSales} vendas`
-        : `${filteredCount} de ${totalSales} vendas`
+    let counterText = ''
+
+    if (statusFilter === 'all' && clientNameFilter.trim() === '') {
+      counterText = `${totalSales} vendas`
+    } else if (clientNameFilter.trim() !== '') {
+      counterText = `${filteredCount} de ${totalSales} vendas ${
+        clientNameFilter.trim() ? `(cliente: "${clientNameFilter}")` : ''
+      }`
+    } else {
+      counterText = `${filteredCount} de ${totalSales} vendas`
+    }
+
+    counter.textContent = counterText
   }
 
   filteredSales.forEach(sale => {
@@ -714,7 +734,15 @@ function setupEventListeners() {
 
 // Função separada para configurar filtros de vendas
 function setupSalesFilters() {
-  // Event listeners para filtros de vendas
+  let currentStatusFilter = 'all'
+  let currentClientFilter = ''
+
+  // Função para aplicar filtros combinados
+  function applyFilters() {
+    renderSales(currentStatusFilter, currentClientFilter)
+  }
+
+  // Event listeners para filtros de status
   const filterButtons = document.querySelectorAll('.filter-btn')
 
   // Remover listeners antigos (se existirem)
@@ -723,21 +751,56 @@ function setupSalesFilters() {
     button.parentNode.replaceChild(newButton, button)
   })
 
-  // Adicionar novos listeners
+  // Adicionar novos listeners para filtros de status
   const newFilterButtons = document.querySelectorAll('.filter-btn')
   newFilterButtons.forEach(button => {
     button.addEventListener('click', e => {
-      const status = e.target.getAttribute('data-status')
-      console.log('Filtro clicado:', status)
+      currentStatusFilter = e.target.getAttribute('data-status')
+      console.log('Filtro de status clicado:', currentStatusFilter)
 
       // Atualizar visual dos botões
       newFilterButtons.forEach(btn => btn.classList.remove('active'))
       e.target.classList.add('active')
 
-      // Aplicar filtro
-      renderSales(status)
+      // Aplicar filtros
+      applyFilters()
     })
   })
+
+  // Event listener para filtro de nome do cliente
+  const clientSearchInput = document.getElementById('cliente-vendas-search')
+  const clearClientSearch = document.getElementById('clear-cliente-search')
+
+  if (clientSearchInput) {
+    // Filtro em tempo real com debounce
+    let searchTimeout
+    clientSearchInput.addEventListener('input', e => {
+      clearTimeout(searchTimeout)
+      searchTimeout = setTimeout(() => {
+        currentClientFilter = e.target.value.trim()
+        console.log('Filtro de cliente aplicado:', currentClientFilter)
+
+        // Mostrar/esconder botão de limpar
+        if (currentClientFilter) {
+          clearClientSearch.classList.remove('hidden')
+        } else {
+          clearClientSearch.classList.add('hidden')
+        }
+
+        applyFilters()
+      }, 300) // Delay de 300ms para evitar muitas chamadas
+    })
+  }
+
+  // Botão para limpar busca de cliente
+  if (clearClientSearch) {
+    clearClientSearch.addEventListener('click', () => {
+      clientSearchInput.value = ''
+      currentClientFilter = ''
+      clearClientSearch.classList.add('hidden')
+      applyFilters()
+    })
+  }
 
   // Inicializar contador na primeira renderização
   setTimeout(() => {

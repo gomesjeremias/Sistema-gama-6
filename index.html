@@ -499,6 +499,34 @@
             <!-- Filtros de Status de Pagamento -->
             <div class="card bg-base-100 shadow-md mb-4">
               <div class="card-body py-4">
+                <!-- Filtro por Nome do Cliente -->
+                <div class="flex items-center gap-4 flex-wrap mb-4">
+                  <span class="font-semibold text-base-content/70">
+                    <i class="fa-solid fa-search mr-2"></i>Buscar Cliente:
+                  </span>
+                  <div class="flex-1 max-w-md">
+                    <div class="relative">
+                      <i
+                        class="fa-solid fa-user absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                      ></i>
+                      <input
+                        type="text"
+                        id="cliente-vendas-search"
+                        class="input input-bordered w-full pl-10 pr-10"
+                        placeholder="Digite o nome do cliente..."
+                      />
+                      <button
+                        id="clear-cliente-search"
+                        class="absolute right-3 top-1/3  text-gray-400 hover:text-gray-600 hidden"
+                        title="Limpar busca"
+                      >
+                        <i class="fa-solid fa-times"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Filtros de Status -->
                 <div class="flex items-center gap-4 flex-wrap">
                   <span class="font-semibold text-base-content/70">
                     <i class="fa-solid fa-filter mr-2"></i>Filtrar por Status:
