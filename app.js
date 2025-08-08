@@ -8,6 +8,7 @@ let currentEscolaId = null;
 
 // Funções de Renderização
 function renderClients(escolaId = null, filtro = '') {
+    
     let clients;
     if (escolaId) {
         clients = db.getClientesByEscola(escolaId);

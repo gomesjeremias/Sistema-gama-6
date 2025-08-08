@@ -509,6 +509,11 @@ body {
   padding: var(--spacing-md) var(--spacing-lg);
 }
 
+.w-48 {
+    width: 12rem;
+    height: 4rem;
+}
+
 .input:focus,
 .textarea:focus,
 .select:focus {
