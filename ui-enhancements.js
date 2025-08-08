@@ -68,10 +68,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Adiciona um pequeno atraso para cada card
       setTimeout(() => {
-        card.style.animation = `fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${
-          index * 0.1
+        card.style.animation = `fadeInUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${
+          index * 0.2
         }s both`
-      }, 100)
+      }, 200)
     })
   }
 
@@ -110,7 +110,8 @@ document.addEventListener('DOMContentLoaded', function () {
     sections.forEach(section => {
       section.style.opacity = '0'
       section.style.transform = 'translateY(30px)'
-      section.style.transition = 'opacity 0.6s ease, transform 0.6s ease'
+      section.style.transition =
+        'opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
       observer.observe(section)
     })
   }
@@ -133,10 +134,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Remove automaticamente após o tempo especificado
       setTimeout(() => {
-        toast.style.animation = 'slideOutRight 0.3s ease-out'
+        toast.style.animation =
+          'slideOutRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
         setTimeout(() => {
           document.body.removeChild(toast)
-        }, 300)
+        }, 600)
       }, duration)
     }
 
@@ -161,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function () {
         this.classList.add('loading')
         setTimeout(() => {
           this.classList.remove('loading')
-        }, 300)
+        }, 600)
       })
     }
   }

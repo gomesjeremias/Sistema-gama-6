@@ -74,10 +74,10 @@
   --spacing-2xl: 2rem;
   --spacing-3xl: 3rem;
 
-  /* Transições */
-  --transition-fast: 150ms ease-in-out;
-  --transition-normal: 300ms ease-in-out;
-  --transition-slow: 500ms ease-in-out;
+  /* Transições - Agora mais lentas e fluidas */
+  --transition-fast: 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-normal: 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-slow: 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* Fontes modernas */
@@ -94,7 +94,7 @@ body {
    ===================================== */
 
 .page-section {
-  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeInUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 @keyframes fadeInUp {
@@ -155,7 +155,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  animation: fadeIn 1s ease-out;
+  animation: fadeIn 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .logo {
@@ -609,7 +609,7 @@ body {
   border: 1px solid var(--gray-200);
   max-width: 500px;
   padding: var(--spacing-3xl);
-  animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: scaleIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .modal-box h3 {
@@ -634,7 +634,7 @@ body {
   backdrop-filter: blur(20px);
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  animation: scaleIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: scaleIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 #login-page .card-title {
@@ -655,7 +655,7 @@ body {
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-xl);
-  animation: slideIn 0.2s ease-out;
+  animation: slideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .dropdown-content li > * {
@@ -698,7 +698,7 @@ body {
 #sidebar-overlay.show {
   display: block !important;
   backdrop-filter: blur(4px);
-  animation: fadeIn 0.3s ease-out;
+  animation: fadeIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* =====================================
@@ -1187,6 +1187,77 @@ h2 .fa-solid {
 /* =====================================
    OTIMIZAÇÕES FINAIS
    ===================================== */
+
+/* =====================================
+   OTIMIZAÇÕES FINAIS - ANIMAÇÕES SUAVES
+   ===================================== */
+
+/* Transições mais suaves globais */
+* {
+  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+/* Transições específicas para elementos interativos */
+.btn,
+.card,
+.input,
+.textarea,
+.select,
+.badge,
+.table tbody tr {
+  transition-duration: var(--transition-normal) !important;
+}
+
+/* Hover effects mais suaves */
+.card:hover {
+  transition-duration: var(--transition-slow) !important;
+}
+
+/* Animações de entrada mais suaves para elementos */
+.fade-in-slow {
+  animation: fadeInUp 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.slide-in-slow {
+  animation: slideIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.scale-in-slow {
+  animation: scaleIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Keyframes adicionais para animações mais fluidas */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes smoothBounce {
+  0%,
+  20%,
+  53%,
+  80%,
+  100% {
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transform: translate3d(0, 0, 0);
+  }
+  40%,
+  43% {
+    transition-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    transform: translate3d(0, -20px, 0);
+  }
+  70% {
+    transition-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    transform: translate3d(0, -10px, 0);
+  }
+  90% {
+    transform: translate3d(0, -2px, 0);
+  }
+}
 
 /* Redução de movimento para acessibilidade */
 @media (prefers-reduced-motion: reduce) {
