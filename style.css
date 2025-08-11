@@ -1420,6 +1420,25 @@ h2 .fa-solid {
   td {
     padding: 0.5rem;
   }
+
+  #sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh; /* ocupa a tela inteira */
+    overflow-y: auto;
+  }
+
+  #sidebar nav {
+    flex: 1; /* preenche o espaço e empurra o botão para baixo */
+  }
+
+  /* Ajusta botão sair */
+  #sidebar .logout-btn {
+    margin-top: auto; /* mantém no fim */
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+  }
 }
 
 /* Telas muito pequenas (até 480px) */
@@ -1443,29 +1462,34 @@ h2 .fa-solid {
     max-height: 200px;
   }
 
+  .badge{
+
+    width: 14vw;
+
+  }
+
+  #sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh; /* ocupa a tela inteira */
+    overflow-y: auto;
+  }
+
+  #sidebar nav {
+    flex: 1; /* preenche o espaço e empurra o botão para baixo */
+  }
+
+  /* Ajusta botão sair */
+  #sidebar .logout-btn {
+    margin-top: auto; /* mantém no fim */
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+  }
+    
+
   
-  
   }
-
-  /* Ajuste das badges de status no modo horizontal (landscape) */
-@media (max-width: 768px) and (orientation: landscape) {
-  .badge-success,
-  .badge-warning {
-    font-size: 0.65rem;       /* Fonte menor para caber mais texto */
-    padding: 0.2rem 0.4rem;   /* Reduz padding */
-    border-radius: 4px;       /* Cantos mais compactos */
-    white-space: nowrap;      /* Impede quebra de linha */
-  }
-
-  /* Ajusta ícones ou textos longos */
-  td .badge {
-    display: inline-block;
-    max-width: 100px;         /* Limita largura */
-    overflow: hidden;
-    text-overflow: ellipsis;  /* Adiciona "..." se o texto for grande */
-  }
-}
-
 
  
 
@@ -1523,5 +1547,63 @@ h2 .fa-solid {
   .table th,
   .table td {
     border: 1px solid #000;
+  }
+}
+
+/* Ajuste das badges de status no modo horizontal (landscape) */
+@media (max-width: 768px) and (orientation: landscape) {
+  .badge-success,
+  .badge-warning {
+    font-size: 0.65rem;       /* Fonte menor para caber mais texto */
+    padding: 0.2rem 0.4rem;   /* Reduz padding */
+    border-radius: 4px;       /* Cantos mais compactos */
+    white-space: nowrap;      /* Impede quebra de linha */
+  }
+
+  /* Ajusta ícones ou textos longos */
+  td .badge {
+    display: inline-block;
+    max-width: 100px;         /* Limita largura */
+    overflow: hidden;
+    text-overflow: ellipsis;  /* Adiciona "..." se o texto for grande */
+  }
+}
+
+/* Garante que a página possa rolar em qualquer dispositivo */
+html, body {
+  height: auto !important;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+/* Ajusta o dashboard para telas menores */
+@media (max-width: 768px) {
+  #dashboard {
+    height: auto !important;
+    overflow-y: visible !important;
+    padding-bottom: 2rem; /* espaço extra para evitar corte no final */
+  }
+}
+
+/* Se algum container interno estiver cortando */
+.page-section {
+  height: auto !important;
+  overflow-y: visible !important;
+}
+
+/* Corrige botão "Sair" cortado no modo landscape em telas pequenas */
+@media (max-width: 768px) and (orientation: landscape) {
+  #sidebar {
+    overflow-y: auto !important;
+    max-height: 100vh; /* ocupa a altura visível da tela */
+  }
+
+  #sidebar .btn {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  #sidebar nav {
+    padding-bottom: 1rem; /* espaço extra para o botão sair */
   }
 }
