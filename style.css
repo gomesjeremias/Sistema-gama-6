@@ -102,6 +102,7 @@ body {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -113,6 +114,7 @@ body {
     opacity: 0;
     transform: translateX(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -124,6 +126,7 @@ body {
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -171,8 +174,8 @@ body {
   width: auto;
   transition: var(--transition-normal);
   position: relative;
-    left: -490px;
-    top: 9px;
+  left: -490px;
+  top: 9px;
 }
 
 .logo img:hover {
@@ -200,20 +203,16 @@ body {
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(
-    90deg,
-    var(--primary-color),
-    var(--info-color),
-    var(--success-color)
-  );
+  background: linear-gradient(90deg,
+      var(--primary-color),
+      var(--info-color),
+      var(--success-color));
 }
 
 #sidebar .p-4:first-child {
-  background: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--primary-dark)
-  );
+  background: linear-gradient(135deg,
+      var(--primary-color),
+      var(--primary-dark));
   color: white;
   font-size: var(--font-size-xl);
   font-weight: 700;
@@ -226,7 +225,7 @@ body {
 }
 
 /* Menu items modernos */
-.menu li > * {
+.menu li>* {
   padding: var(--spacing-md) var(--spacing-lg);
   margin: var(--spacing-xs) 0;
   border-radius: var(--radius-lg);
@@ -237,43 +236,37 @@ body {
   overflow: hidden;
 }
 
-.menu li > *::before {
+.menu li>*::before {
   content: '';
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(59, 130, 246, 0.1),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(59, 130, 246, 0.1),
+      transparent);
   transition: var(--transition-normal);
 }
 
-.menu li > *:hover::before {
+.menu li>*:hover::before {
   left: 100%;
 }
 
-.menu li > *:hover {
-  background: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--primary-dark)
-  );
+.menu li>*:hover {
+  background: linear-gradient(135deg,
+      var(--primary-color),
+      var(--primary-dark));
   color: white;
   transform: translateX(8px);
   box-shadow: var(--shadow-lg);
 }
 
 .nav-link.active {
-  background: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--primary-dark)
-  );
+  background: linear-gradient(135deg,
+      var(--primary-color),
+      var(--primary-dark));
   color: white;
   box-shadow: var(--shadow-lg);
   transform: translateX(4px);
@@ -300,13 +293,13 @@ body {
   box-shadow: inset var(--shadow-sm);
 }
 
-#escolas-submenu li > * {
+#escolas-submenu li>* {
   font-size: var(--font-size-sm);
   padding: var(--spacing-sm) var(--spacing-md);
   color: var(--gray-600);
 }
 
-#escolas-submenu li > *:hover {
+#escolas-submenu li>*:hover {
   background: var(--primary-light);
   color: white;
 }
@@ -410,12 +403,10 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent);
   transition: var(--transition-fast);
 }
 
@@ -424,11 +415,9 @@ body {
 }
 
 .btn-primary {
-  background: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--primary-dark)
-  );
+  background: linear-gradient(135deg,
+      var(--primary-color),
+      var(--primary-dark));
   border: none;
   color: white;
   box-shadow: var(--shadow-md);
@@ -513,8 +502,8 @@ body {
 }
 
 .w-48 {
-    width: 12rem;
-    height: 4rem;
+  width: 12rem;
+  height: 4rem;
 }
 
 .input:focus,
@@ -564,11 +553,9 @@ body {
 }
 
 .table tbody tr:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(59, 130, 246, 0.05),
-    rgba(6, 182, 212, 0.05)
-  );
+  background: linear-gradient(135deg,
+      rgba(59, 130, 246, 0.05),
+      rgba(6, 182, 212, 0.05));
   transform: translateX(2px);
   transition: var(--transition-fast);
 }
@@ -666,13 +653,13 @@ body {
   animation: slideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.dropdown-content li > * {
+.dropdown-content li>* {
   padding: var(--spacing-md) var(--spacing-lg);
   color: var(--gray-700);
   transition: var(--transition-fast);
 }
 
-.dropdown-content li > *:hover {
+.dropdown-content li>*:hover {
   background: var(--primary-color);
   color: white;
 }
@@ -744,11 +731,9 @@ body {
 }
 
 .vendas-table-row.filtered {
-  background: linear-gradient(
-    135deg,
-    rgba(34, 197, 94, 0.05) 0%,
-    rgba(59, 130, 246, 0.05) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(34, 197, 94, 0.05) 0%,
+      rgba(59, 130, 246, 0.05) 100%);
   border-left: 3px solid var(--success-color);
   animation: highlightRow 0.6s ease-out;
 }
@@ -758,6 +743,7 @@ body {
     transform: translateX(-10px);
     opacity: 0;
   }
+
   100% {
     transform: translateX(0);
     opacity: 1;
@@ -941,10 +927,12 @@ body {
    ===================================== */
 
 @keyframes pulse {
+
   0%,
   100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }
@@ -1018,10 +1006,12 @@ h2 .fa-solid {
 }
 
 @keyframes logoFloat {
+
   0%,
   100% {
     transform: translateX(-50%) translateY(0);
   }
+
   50% {
     transform: translateX(-50%) translateY(-5px);
   }
@@ -1034,12 +1024,10 @@ h2 .fa-solid {
 
 /* Título da sidebar com efeito especial */
 #sidebar .p-4:first-child {
-  background: linear-gradient(
-    135deg,
-    var(--primary-color) 0%,
-    var(--primary-dark) 50%,
-    var(--info-color) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--primary-color) 0%,
+      var(--primary-dark) 50%,
+      var(--info-color) 100%);
   position: relative;
   overflow: hidden;
 }
@@ -1051,12 +1039,10 @@ h2 .fa-solid {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255, 255, 255, 0.1),
-    transparent
-  );
+  background: linear-gradient(45deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent);
   transform: rotate(45deg);
   animation: shine 3s infinite;
 }
@@ -1065,9 +1051,11 @@ h2 .fa-solid {
   0% {
     transform: rotate(45deg) translateX(-100%);
   }
+
   50% {
     transform: rotate(45deg) translateX(0%);
   }
+
   100% {
     transform: rotate(45deg) translateX(100%);
   }
@@ -1086,11 +1074,9 @@ h2 .fa-solid {
   left: 0;
   width: 100%;
   height: 4px;
-  background: linear-gradient(
-    90deg,
-    var(--primary-color),
-    var(--success-color)
-  );
+  background: linear-gradient(90deg,
+      var(--primary-color),
+      var(--success-color));
   transform: scaleX(0);
   transform-origin: left;
   animation: progressBar 2s ease-out 0.5s forwards;
@@ -1131,6 +1117,7 @@ h2 .fa-solid {
 .badge {
   position: relative;
   overflow: hidden;
+  width: 10vw;
 }
 
 .badge::before {
@@ -1140,12 +1127,10 @@ h2 .fa-solid {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent);
   transition: var(--transition-normal);
 }
 
@@ -1238,6 +1223,7 @@ h2 .fa-solid {
     transform: translateX(100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -1279,11 +1265,9 @@ h2 .fa-solid {
 
 /* Estado de erro */
 .error-state {
-  background: linear-gradient(
-    135deg,
-    rgba(239, 68, 68, 0.05),
-    rgba(220, 38, 38, 0.05)
-  );
+  background: linear-gradient(135deg,
+      rgba(239, 68, 68, 0.05),
+      rgba(220, 38, 38, 0.05));
   border: 1px solid rgba(239, 68, 68, 0.2);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
@@ -1293,11 +1277,9 @@ h2 .fa-solid {
 
 /* Estado de sucesso */
 .success-state {
-  background: linear-gradient(
-    135deg,
-    rgba(16, 185, 129, 0.05),
-    rgba(5, 150, 105, 0.05)
-  );
+  background: linear-gradient(135deg,
+      rgba(16, 185, 129, 0.05),
+      rgba(5, 150, 105, 0.05));
   border: 1px solid rgba(16, 185, 129, 0.2);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
@@ -1352,12 +1334,14 @@ h2 .fa-solid {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
 
 @keyframes smoothBounce {
+
   0%,
   20%,
   53%,
@@ -1366,22 +1350,129 @@ h2 .fa-solid {
     transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
     transform: translate3d(0, 0, 0);
   }
+
   40%,
   43% {
     transition-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
     transform: translate3d(0, -20px, 0);
   }
+
   70% {
     transition-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
     transform: translate3d(0, -10px, 0);
   }
+
   90% {
     transform: translate3d(0, -2px, 0);
   }
 }
 
+/* Melhorias para tablets e celulares */
+@media (max-width: 1024px) {
+  #sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    height: 100%;
+    width: 16rem;
+    z-index: 50;
+    transition: left 0.3s ease;
+  }
+
+  #sidebar.show {
+    left: 0;
+  }
+
+  #sidebar-overlay {
+    display: none;
+  }
+
+  #sidebar-overlay.show {
+    display: block;
+    background: rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Melhorias para telas menores que 768px */
+@media (max-width: 768px) {
+
+  /* Reduzir fontes e espaçamentos */
+  body {
+    font-size: 14px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-size: 1.2rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  /* Tabelas compactas */
+  table {
+    font-size: 0.85rem;
+  }
+
+  th,
+  td {
+    padding: 0.5rem;
+  }
+}
+
+/* Telas muito pequenas (até 480px) */
+@media (max-width: 480px) and (orientation: landscape) {
+  .btn {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .input,
+  .select {
+    padding: 0.4rem 0.6rem;
+  }
+
+  /* Fazendo os cards ocuparem 100% */
+  .grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  #vendas-produto-chart {
+    max-height: 200px;
+  }
+
+  
+  
+  }
+
+  /* Ajuste das badges de status no modo horizontal (landscape) */
+@media (max-width: 768px) and (orientation: landscape) {
+  .badge-success,
+  .badge-warning {
+    font-size: 0.65rem;       /* Fonte menor para caber mais texto */
+    padding: 0.2rem 0.4rem;   /* Reduz padding */
+    border-radius: 4px;       /* Cantos mais compactos */
+    white-space: nowrap;      /* Impede quebra de linha */
+  }
+
+  /* Ajusta ícones ou textos longos */
+  td .badge {
+    display: inline-block;
+    max-width: 100px;         /* Limita largura */
+    overflow: hidden;
+    text-overflow: ellipsis;  /* Adiciona "..." se o texto for grande */
+  }
+}
+
+
+ 
+
+
 /* Redução de movimento para acessibilidade */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   ::before,
   ::after {
@@ -1411,6 +1502,7 @@ h2 .fa-solid {
 
 /* Print styles */
 @media print {
+
   .sidebar,
   .btn,
   .modal,
