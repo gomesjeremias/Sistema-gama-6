@@ -907,20 +907,7 @@ body {
   }
 }
 
-@media (max-width: 768px) {
-  .grid {
-    grid-template-columns: 1fr !important;
-  }
 
-  .card .card-body p.text-3xl {
-    font-size: var(--font-size-3xl);
-  }
-
-  .modal-box {
-    margin: var(--spacing-lg);
-    max-width: calc(100vw - 2rem);
-  }
-}
 
 /* =====================================
    ANIMAÇÃO DE LOADING
@@ -1177,6 +1164,8 @@ h2 .fa-solid {
   animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
 }
 
+
+
 /* Loading states */
 .btn.loading {
   position: relative;
@@ -1394,7 +1383,20 @@ h2 .fa-solid {
 }
 
 /* Melhorias para telas menores que 768px */
-@media (max-width: 768px) {
+@media (max-width: 768px) and (orientation: landscape) {
+
+  .grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .card .card-body p.text-3xl {
+    font-size: var(--font-size-3xl);
+  }
+
+  .modal-box {
+    margin: var(--spacing-lg);
+    max-width: calc(100vw - 2rem);
+  }
 
   /* Reduzir fontes e espaçamentos */
   body {
@@ -1422,24 +1424,89 @@ h2 .fa-solid {
   }
 
   #sidebar {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100vh; /* ocupa a tela inteira */
-    overflow-y: auto;
+    min-width: 180px; /* garante espaço para o título */
   }
 
-  #sidebar nav {
-    flex: 1; /* preenche o espaço e empurra o botão para baixo */
+  #sidebar .p-4.text-xl.font-bold {
+    font-size: clamp(0.85rem, 2.5vw, 1rem); /* diminui um pouco se faltar espaço */
+    text-align: center;
+    white-space: nowrap;
+    overflow:clip;
+    text-overflow: ellipsis;
   }
 
-  /* Ajusta botão sair */
-  #sidebar .logout-btn {
-    margin-top: auto; /* mantém no fim */
-    padding: 0.4rem 0.6rem;
-    font-size: 0.8rem;
-  }
+  #sidebar .p-4:first-child {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 50%, var(--info-color) 100%);
+    position: relative;
+    overflow: clip;
 }
+ 
+
+  .card-body {
+    height: auto !important;       /* Altura automática */
+    max-height: none !important;   /* Remove limites */
+  }
+
+  /* Garante que a tabela role se for maior que o card */
+  #dashboard .card .overflow-x-auto {
+    max-height: 40vh; /* ocupa no máximo 40% da altura da tela */
+    overflow-y: auto; /* adiciona rolagem vertical */
+  }
+
+  #dashboard table {
+    font-size: 0.75rem;
+  }
+  #dashboard th,
+  #dashboard td {
+    padding: 0.3rem;
+  }
+
+  .card.bg-base-100.shadow-lg{
+ 
+    height: 69vh;
+}
+
+#dashboard {
+    height: auto !important;
+    overflow-y: visible !important;
+    padding-bottom: 2rem; /* espaço extra para evitar corte no final */
+  }
+
+
+/* Se algum container interno estiver cortando */
+.page-section {
+  height: auto !important;
+  overflow-y: visible !important;
+}
+
+
+  
+.badge-success,
+  .badge-warning {
+    font-size: 0.65rem;       /* Fonte menor para caber mais texto */
+    padding: 0.2rem 0.4rem;   /* Reduz padding */
+    border-radius: 4px;       /* Cantos mais compactos */
+    white-space: nowrap;      /* Impede quebra de linha */
+  }
+
+  /* Ajusta ícones ou textos longos */
+  td .badge {
+    display: inline-block;
+    max-width: 100px;         /* Limita largura */
+    overflow: hidden;
+    text-overflow: ellipsis;  /* Adiciona "..." se o texto for grande */
+  }
+
+
+/* Garante que a página possa rolar em qualquer dispositivo */
+html, body {
+  height: auto !important;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+}
+
 
 /* Telas muito pequenas (até 480px) */
 @media (max-width: 480px) and (orientation: landscape) {
@@ -1475,6 +1542,8 @@ h2 .fa-solid {
     height: 100vh; /* ocupa a tela inteira */
     overflow-y: auto;
   }
+
+  
 
   #sidebar nav {
     flex: 1; /* preenche o espaço e empurra o botão para baixo */
@@ -1550,60 +1619,7 @@ h2 .fa-solid {
   }
 }
 
-/* Ajuste das badges de status no modo horizontal (landscape) */
-@media (max-width: 768px) and (orientation: landscape) {
-  .badge-success,
-  .badge-warning {
-    font-size: 0.65rem;       /* Fonte menor para caber mais texto */
-    padding: 0.2rem 0.4rem;   /* Reduz padding */
-    border-radius: 4px;       /* Cantos mais compactos */
-    white-space: nowrap;      /* Impede quebra de linha */
-  }
 
-  /* Ajusta ícones ou textos longos */
-  td .badge {
-    display: inline-block;
-    max-width: 100px;         /* Limita largura */
-    overflow: hidden;
-    text-overflow: ellipsis;  /* Adiciona "..." se o texto for grande */
-  }
-}
+  
 
-/* Garante que a página possa rolar em qualquer dispositivo */
-html, body {
-  height: auto !important;
-  min-height: 100vh;
-  overflow-y: auto;
-}
 
-/* Ajusta o dashboard para telas menores */
-@media (max-width: 768px) {
-  #dashboard {
-    height: auto !important;
-    overflow-y: visible !important;
-    padding-bottom: 2rem; /* espaço extra para evitar corte no final */
-  }
-}
-
-/* Se algum container interno estiver cortando */
-.page-section {
-  height: auto !important;
-  overflow-y: visible !important;
-}
-
-/* Corrige botão "Sair" cortado no modo landscape em telas pequenas */
-@media (max-width: 768px) and (orientation: landscape) {
-  #sidebar {
-    overflow-y: auto !important;
-    max-height: 100vh; /* ocupa a altura visível da tela */
-  }
-
-  #sidebar .btn {
-    padding: 0.4rem 0.6rem;
-    font-size: 0.8rem;
-  }
-
-  #sidebar nav {
-    padding-bottom: 1rem; /* espaço extra para o botão sair */
-  }
-}
